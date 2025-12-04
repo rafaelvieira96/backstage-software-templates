@@ -27,7 +27,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ricardoandre9707/${{values.app_name}}:${{ '${{ env.COMMIT_ID }}' }}
+          tags: rafaelvieira96/${{values.app_name}}:latest
     outputs:
       commit_id: ${{ '${{ env.COMMIT_ID }}' }}
 
@@ -38,17 +38,17 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - name: Modify values file
-        shell: bash
-        run: |
-          echo ${{ '${{needs.ci.outputs.commit_id}}' }}
-          pip install yq
-          yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
+      # - name: Modify values file
+      #   shell: bash
+      #   run: |
+      #     echo ${{ '${{needs.ci.outputs.commit_id}}' }}
+      #     pip install yq
+      #     yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
 
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
 
       - name: Install argocd
         shell: bash
@@ -64,14 +64,14 @@ jobs:
             --insecure  \
             --grpc-web \
             --username admin \
-            --password  ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
+            --password  ${{ secrets.ARGOCD_PASSWORD }}
 
       - name: Ensure argocd repo and app
         shell: bash
         run: |
 
           # Connects the argocd repo
-          repo="https://github.com/ricardoandre-97/${{values.app_name}}.git"
+          repo="https://github.com/rafaelvieira96/${{values.app_name}}.git"
           argocd repo list | grep -q $repo || argocd repo add $repo
 
           # Creates the argocd app

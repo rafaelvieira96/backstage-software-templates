@@ -1,5 +1,11 @@
 replicaCount: 2
 
+image:
+  repository: rafaelvieira96/${{values.app_name}}
+  pullPolicy: IfNotPresent
+  # tag: ${{values.app_name}}-${{values.app_env}}-latest
+  tag: latest
+
 resources:
   requests:
     cpu: 60m

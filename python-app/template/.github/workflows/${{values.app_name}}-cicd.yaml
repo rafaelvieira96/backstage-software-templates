@@ -2,8 +2,8 @@ name: ${{values.app_name}}-cicd
 
 on:
   push:
-    paths:
-      - src/**
+    # paths:
+    #   - src/**
     branches:
       - main
 

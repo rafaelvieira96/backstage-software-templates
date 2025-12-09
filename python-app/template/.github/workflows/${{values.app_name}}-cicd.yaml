@@ -9,7 +9,7 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: org-runners
     steps:
 
       - name: Shorten commit id
@@ -33,7 +33,7 @@ jobs:
 
   cd:
     needs: ci
-    runs-on: self-hosted
+    runs-on: org-runners
     steps:
 
       - uses: actions/checkout@v3
@@ -58,14 +58,14 @@ jobs:
           rm argocd
 
 
-      - name: argocd login
-        shell: bash
-        run: |
-          argocd login argocd-server.argocd \
-            --insecure  \
-            --grpc-web \
-            --username admin \
-            --password  ${{ secrets.ARGOCD_PASSWORD }}
+      # - name: argocd login
+      #   shell: bash
+      #   run: |
+      #     argocd login argocd-server.argocd \
+      #       --insecure  \
+      #       --grpc-web \
+      #       --username admin \
+      #       --password  ${{ secrets.ARGOCD_PASSWORD }}
     
 
       - name: Ensure argocd repo and app

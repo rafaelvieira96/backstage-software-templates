@@ -2,8 +2,8 @@ name: ${{values.app_name}}-cicd
 
 on:
   push:
-    # paths:
-    #   - src/**
+    paths:
+      - src/**
     branches:
       - main
 
@@ -41,7 +41,7 @@ jobs:
 
   cd:
     needs: ci
-    runs-on: org-runners
+    runs-on: self-hosted
     steps:
 
       - uses: actions/checkout@v3
